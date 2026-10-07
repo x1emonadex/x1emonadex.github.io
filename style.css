@@ -360,17 +360,44 @@ p { margin: 0; text-wrap: pretty; }
 
 .card-text { color: #cfe0cc; font-size: 0.97rem; }
 
-.card-shot {
-  display: block;
-  width: 100%;
-  height: auto;
+/* окно с фотографией: внутри кадра картинка выше кадра и смещается
+   при прокрутке — видно сначала верх снимка, потом середину, потом низ */
+
+.frame {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.28);
+  aspect-ratio: var(--ratio, 16 / 10);
 }
 
-.card-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.frame-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 125%;
+  transform: translate3d(0, var(--shift, 0px), 0);
+  will-change: transform;
+}
 
-.card-shots .card-shot { height: 100%; object-fit: cover; object-position: top center; }
+.frame-inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.frame--pair .frame-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.frame--pair .frame-inner img + img {
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
 
 .card .btn { margin-top: auto; align-self: flex-start; }
 
@@ -661,7 +688,6 @@ p { margin: 0; text-wrap: pretty; }
   .term-head { gap: 10px; }
   .term-tabs { margin-left: 0; width: 100%; }
   .stack { grid-template-columns: minmax(0, 1fr); }
-  .card-shots { grid-template-columns: minmax(0, 1fr); }
   .stack-table .line { grid-template-columns: minmax(0, 1fr); gap: 3px; }
   .contact { padding: 24px; }
 }

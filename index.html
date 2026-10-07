@@ -120,7 +120,11 @@ gradlew :composeApp:assembleDebug</code></pre>
             и приложение, которое показывает результат модели вместе с классической
             обработкой снимка.
           </p>
-          <img class="card-shot" src="assets/sived-detection.jpg" alt="Результат обнаружения транспортных средств на радиолокационном снимке" loading="lazy" />
+          <div class="frame" style="--ratio: 1 / 1">
+            <div class="frame-inner">
+              <img src="assets/sived-detection.jpg" alt="Результат обнаружения транспортных средств на радиолокационном снимке" loading="lazy" />
+            </div>
+          </div>
           <a class="btn btn-lime" href="https://github.com/x1emonadex/sived-sar-vehicle-detection" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
 
@@ -131,9 +135,11 @@ gradlew :composeApp:assembleDebug</code></pre>
             Приложение для Android и Windows из одной кодовой базы: календарь,
             напоминания и перенос списка между устройствами файлами.
           </p>
-          <div class="card-shots">
-            <img class="card-shot" src="assets/birthday-list.png" alt="Экран ближайших дней рождения" loading="lazy" />
-            <img class="card-shot" src="assets/birthday-edit.png" alt="Экран редактирования записи" loading="lazy" />
+          <div class="frame frame--pair" style="--ratio: 4 / 3">
+            <div class="frame-inner">
+              <img src="assets/birthday-list.png" alt="Экран ближайших дней рождения" loading="lazy" />
+              <img src="assets/birthday-edit.png" alt="Экран редактирования записи" loading="lazy" />
+            </div>
           </div>
           <a class="btn btn-lime" href="https://github.com/x1emonadex/BirthdayCalendar" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
@@ -165,7 +171,11 @@ gradlew :composeApp:assembleDebug</code></pre>
             Алгоритм k-means, написанный с нуля, и графическое приложение
             под Windows: загрузка данных, кластеризация, метрики и отчёт.
           </p>
-          <img class="card-shot" src="assets/kmeans-window.png" alt="Окно приложения для кластеризации методом k-means" loading="lazy" />
+          <div class="frame" style="--ratio: 16 / 10">
+            <div class="frame-inner">
+              <img src="assets/kmeans-window.png" alt="Окно приложения для кластеризации методом k-means" loading="lazy" />
+            </div>
+          </div>
           <a class="btn btn-lime" href="https://github.com/x1emonadex/K-means" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
       </div>
@@ -362,6 +372,49 @@ gradlew :composeApp:assembleDebug</code></pre>
         setTimeout(function () { copyBtn.textContent = 'Скопировать'; }, 1800);
       });
     });
+  }
+
+  /* «окно» на фотографиях: картинка внутри кадра выше самого кадра и
+     смещается при прокрутке — сначала видно верх снимка, потом середину,
+     в конце низ. При отключённой анимации остаётся обычная обрезка. */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.frame'));
+
+  if (!reduceMotion && frames.length) {
+    var updateFrames = function () {
+      var vh = window.innerHeight;
+
+      frames.forEach(function (frame) {
+        var inner = frame.firstElementChild;
+        if (!inner) return;
+
+        var rect = frame.getBoundingClientRect();
+        if (rect.bottom < -300 || rect.top > vh + 300) return;
+
+        var progress = (vh - rect.top) / (vh + rect.height);
+        progress = Math.max(0, Math.min(1, progress));
+
+        inner.style.setProperty('--shift', (-progress * 0.25 * rect.height).toFixed(2) + 'px');
+      });
+    };
+
+    var frameQueued = false;
+    var raf = window.requestAnimationFrame
+      ? window.requestAnimationFrame.bind(window)
+      : function (cb) { return setTimeout(cb, 16); };
+
+    var onFrameScroll = function () {
+      if (frameQueued) return;
+      frameQueued = true;
+      raf(function () {
+        frameQueued = false;
+        updateFrames();
+      });
+    };
+
+    window.addEventListener('scroll', onFrameScroll, { passive: true });
+    window.addEventListener('resize', onFrameScroll);
+    updateFrames();
   }
 })();
 </script>
