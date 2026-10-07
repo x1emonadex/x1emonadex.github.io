@@ -339,61 +339,48 @@ p { margin: 0; text-wrap: pretty; }
 
 .card-text { color: var(--muted); font-size: 0.97rem; }
 
-/* окно с фотографией: внутри кадра картинка выше кадра и смещается
-   при прокрутке — видно сначала верх снимка, потом середину, потом низ */
+/* знак проекта: пиксельная эмблема в правом верхнем углу карточки */
 
-.frame {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line-strong);
-  background: #000000;
-  aspect-ratio: var(--ratio, 16 / 10);
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
 }
 
-.frame-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 125%;
-  transform: translate3d(0, var(--shift, 0px), 0);
-  will-change: transform;
-}
-
-.frame-inner img {
+.emblem {
+  flex: none;
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  width: 48px;
+  height: 48px;
 }
 
-.frame--pair .frame-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.frame--pair .frame-inner img + img {
-  border-left: 1px solid var(--line);
+.card-facts {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--lemon-soft);
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
 }
 
 .card .btn { margin-top: auto; align-self: flex-start; }
 
-.card-downloads { display: grid; gap: 8px; }
+.card-downloads { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .dl-row {
+  flex: 1 1 auto;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
   text-decoration: none;
-  padding: 11px 13px;
+  padding: 9px 12px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line-strong);
   background: #000000;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--lemon-soft);
 }
 
