@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Резюме — Макаров Дмитрий</title>
+<meta name="description" content="Резюме Макарова Дмитрия — разработчик систем искусственного интеллекта: компьютерное зрение, прикладные и кроссплатформенные приложения." />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="resume">
+
+  <p class="no-print" style="margin-bottom: 22px;">
+    <a class="btn" href="index.html">← Портфолио</a>
+    <a class="btn primary" href="resume.pdf" style="margin-left: 8px;">Скачать PDF</a>
+  </p>
+
+  <header class="resume-head">
+    <h1>Макаров Дмитрий</h1>
+    <p class="role">Разработчик систем искусственного интеллекта</p>
+    <p class="links">
+      <span>GitHub: <a href="https://github.com/x1emonadex" target="_blank" rel="noopener">github.com/x1emonadex</a></span>
+      <span>Портфолио: <a href="https://x1emonadex.github.io" target="_blank" rel="noopener">x1emonadex.github.io</a></span>
+    </p>
+  </header>
+
+  <h2>Профиль</h2>
+  <p class="profile">
+    Разрабатываю системы компьютерного зрения и прикладные приложения.
+    Обучаю модели обнаружения объектов на радиолокационных снимках: готовлю
+    и проверяю разметку, обучаю модель, оцениваю качество на отложенной
+    выборке. Делаю кроссплатформенные приложения для Android и Windows,
+    а также алгоритмы и настольные программы на C++. В проектах уделяю
+    внимание структуре кода, автотестам и воспроизводимости результата.
+  </p>
+
+  <h2>Технический стек</h2>
+  <div class="stack-table">
+    <div class="line">
+      <span class="key">ИИ и зрение</span>
+      <span>Python, PyTorch (CUDA), Ultralytics YOLO, OpenCV, NumPy, pandas, подготовка и проверка разметки, обучение и оценка моделей</span>
+    </div>
+    <div class="line">
+      <span class="key">Приложения</span>
+      <span>Dart, Flutter, Riverpod, Drift, GoRouter, Kotlin, Compose Multiplatform, Ktor, kotlinx.serialization, C++17, Win32 API, Streamlit</span>
+    </div>
+    <div class="line">
+      <span class="key">Данные</span>
+      <span>SQLite, SQL, схема базы данных, CSV и Excel, JSON, валидация данных</span>
+    </div>
+    <div class="line">
+      <span class="key">Инструменты</span>
+      <span>Git, GitHub, Gradle, VS Code, виртуальные окружения Python, автотесты</span>
+    </div>
+  </div>
+
+  <h2>Проекты</h2>
+
+  <article class="job">
+    <h3>Обнаружение транспорта на РЛИ-снимках</h3>
+    <p class="tech">Python · PyTorch · Ultralytics YOLO · OpenCV · Streamlit</p>
+    <p class="about">
+      Нейросеть YOLO12n для поиска техники на радиолокационных изображениях
+      и приложение, которое показывает результат модели вместе с классической
+      обработкой снимка.
+    </p>
+    <ul>
+      <li>Подготовил датасет SIVED: 1044 снимка и 12 013 размеченных объектов.</li>
+      <li>Перевёл разметку из формата DOTA с повёрнутыми рамками в формат YOLO Detect, проверил корректность аннотаций.</li>
+      <li>Обучил модель за 100 эпох: mAP50 = 0.966 на валидации, 0.982 на тестовой выборке.</li>
+      <li>На тесте precision ≈ 95.6 %, recall ≈ 94.6 % при 1164 верных обнаружениях.</li>
+      <li>Собрал приложение: пороговая обработка и метод Канни рядом с обнаружением, экспорт результатов в файлы.</li>
+    </ul>
+    <p class="repo">github.com/x1emonadex/sived-sar-vehicle-detection</p>
+  </article>
+
+  <article class="job">
+    <h3>Календарь дней рождения</h3>
+    <p class="tech">Dart · Flutter · Riverpod · Drift · SQLite · GoRouter</p>
+    <p class="about">
+      Приложение для Android и Windows из одной кодовой базы: календарь,
+      напоминания и перенос списка между устройствами файлами.
+    </p>
+    <ul>
+      <li>Локальная база Drift/SQLite, работа без интернета.</li>
+      <li>Четыре раздела: ближайшие, календарь (месяц и год), все записи, настройки.</li>
+      <li>Экспорт в Excel и CSV, импорт с дедупликацией, резервные копии в JSON.</li>
+      <li>Уведомления с настраиваемыми сроками, объединение напоминаний одного дня.</li>
+      <li>290 автотестов на логику дат, группировку, импорт и планировщик уведомлений.</li>
+    </ul>
+    <p class="repo">github.com/x1emonadex/BirthdayCalendar</p>
+  </article>
+
+  <article class="job">
+    <h3>Свободные аудитории</h3>
+    <p class="tech">Kotlin · Compose Multiplatform · Ktor · kotlinx.serialization</p>
+    <p class="about">
+      Приложение, которое показывает занятость аудиторий в выбранный день
+      и пару по расписанию всех студенческих групп.
+    </p>
+    <ul>
+      <li>Загрузка расписания через API и сбор занятости по кабинетам.</li>
+      <li>Фильтры по дню, паре, верхней и нижней неделе, диапазону номеров кабинетов.</li>
+      <li>Поиск по преподавателю, группе и предмету; счётчики занятых и свободных кабинетов.</li>
+      <li>Один интерфейс на Android и рабочий стол, адаптивная вёрстка.</li>
+    </ul>
+    <p class="repo">github.com/x1emonadex/NGIEUAudience</p>
+  </article>
+
+  <article class="job">
+    <h3>Анализатор кластеризации K-means</h3>
+    <p class="tech">C++17 · Win32 API · MSVC / MinGW</p>
+    <p class="about">
+      Алгоритм k-means, реализованный с нуля, и графическое приложение
+      под Windows для кластеризации многомерных данных.
+    </p>
+    <ul>
+      <li>Инициализация центроидов методом k-means++, пересчёт центроидов и условие сходимости.</li>
+      <li>Метрики качества: SSE, средняя квадратичная ошибка, компактность и баланс кластеров.</li>
+      <li>Загрузка CSV с автоопределением разделителя и заголовка, экспорт полного отчёта.</li>
+      <li>Интерфейс на Win32 API с четырьмя вкладками результатов, без сторонних библиотек.</li>
+    </ul>
+    <p class="repo">github.com/x1emonadex/K-means</p>
+  </article>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Макаров Дмитрий">
+  <rect width="64" height="64" rx="14" fill="#dceade"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#2f6b55" stroke-opacity="0.35"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Consolas, monospace" font-size="27" font-weight="700" fill="#2f6b55">МД</text>
+</svg>

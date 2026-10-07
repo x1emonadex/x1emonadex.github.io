@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Макаров Дмитрий — разработчик систем искусственного интеллекта</title>
+<meta name="description" content="Макаров Дмитрий — разработчик систем искусственного интеллекта: компьютерное зрение, обучение моделей, прикладные и кроссплатформенные приложения." />
+<meta name="keywords" content="Макаров Дмитрий, системы искусственного интеллекта, компьютерное зрение, PyTorch, YOLO, Flutter, Kotlin, C++" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Макаров Дмитрий — разработчик систем искусственного интеллекта" />
+<meta property="og:description" content="Компьютерное зрение, обучение моделей, прикладные и кроссплатформенные приложения." />
+<meta property="og:url" content="https://x1emonadex.github.io/" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <span class="brand-mark">МД</span>
+      <span>Макаров Дмитрий</span>
+    </a>
+    <nav class="nav">
+      <a href="#projects">Проекты</a>
+      <a href="#stack">Стек</a>
+      <a class="hide-sm" href="resume.html">Резюме</a>
+      <a href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero wrap">
+    <div>
+      <p class="eyebrow">Компьютерное зрение · прикладные приложения</p>
+      <h1>Макаров Дмитрий</h1>
+      <p class="role">Разработчик систем искусственного интеллекта</p>
+      <p class="lede">
+        Обучаю модели компьютерного зрения и пишу прикладные приложения:
+        от подготовки данных и разметки до обученной нейросети, интерфейса
+        и автотестов. Работаю с Python и PyTorch, кроссплатформенными
+        приложениями и алгоритмами на C++.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">Смотреть проекты</a>
+        <a class="btn" href="resume.html">Резюме</a>
+        <a class="btn" href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <aside class="facts">
+      <dl>
+        <div>
+          <dt>Фокус</dt>
+          <dd>Компьютерное зрение, обучение и оценка моделей, подготовка данных</dd>
+        </div>
+        <div>
+          <dt>Открытые проекты</dt>
+          <dd>4 репозитория на GitHub с описанием и результатами</dd>
+        </div>
+        <div>
+          <dt>Основной стек</dt>
+          <dd>Python, PyTorch, Dart и Flutter, Kotlin, C++17</dd>
+        </div>
+        <div>
+          <dt>Платформы</dt>
+          <dd>Windows, Android</dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+
+  <section id="projects" class="wrap">
+    <div class="section-head">
+      <h2>Проекты</h2>
+      <p class="note">исходный код открыт на GitHub</p>
+    </div>
+
+    <article class="case">
+      <div class="case-media" data-tone="sage">
+        <img src="assets/sived-detection.jpg" alt="Результат обнаружения транспортных средств на радиолокационном снимке" loading="lazy" />
+      </div>
+      <div>
+        <p class="case-kicker">Компьютерное зрение · PyTorch</p>
+        <h3>Обнаружение транспорта на РЛИ-снимках</h3>
+        <p class="case-lede">
+          Нейросеть YOLO12n для поиска техники на радиолокационных изображениях:
+          от подготовки датасета и разметки до приложения с результатом модели.
+        </p>
+        <ul class="case-points">
+          <li>Подготовил датасет SIVED — 1044 снимка и 12 013 объектов; разметку перевёл из формата DOTA с повёрнутыми рамками в формат YOLO.</li>
+          <li>Обучил YOLO12n за 100 эпох: mAP50 = 0.966 на валидации и 0.982 на тестовой выборке, precision ≈ 95.6 %, recall ≈ 94.6 %.</li>
+          <li>Проверку разметки и конвертацию данных вынес в отдельные скрипты, качество подтвердил на отложенной тестовой выборке.</li>
+          <li>Собрал приложение: классическая обработка изображения (порог, метод Канни) рядом с результатом нейросети и экспортом файлов.</li>
+        </ul>
+        <p class="chips">
+          <span>Python</span><span>PyTorch</span><span>Ultralytics YOLO</span>
+          <span>OpenCV</span><span>Streamlit</span><span>NumPy</span>
+        </p>
+        <a class="case-link" href="https://github.com/x1emonadex/sived-sar-vehicle-detection" target="_blank" rel="noopener">Репозиторий и графики обучения →</a>
+      </div>
+    </article>
+
+    <article class="case flip">
+      <div class="case-media pair" data-tone="blue">
+        <img src="assets/birthday-list.png" alt="Экран ближайших дней рождения" loading="lazy" />
+        <img src="assets/birthday-edit.png" alt="Экран редактирования записи" loading="lazy" />
+      </div>
+      <div>
+        <p class="case-kicker">Мобильные и десктопные приложения · Flutter</p>
+        <h3>Календарь дней рождения</h3>
+        <p class="case-lede">
+          Приложение для Android и Windows из одной кодовой базы: календарь,
+          напоминания и перенос списка между устройствами файлами.
+        </p>
+        <ul class="case-points">
+          <li>Локальное хранение в базе Drift/SQLite — приложение работает без интернета.</li>
+          <li>Четыре раздела: ближайшие, календарь с месячным и годовым видом, все записи с поиском и сортировками, настройки.</li>
+          <li>Экспорт в Excel и CSV, импорт с дедупликацией, резервные копии в JSON.</li>
+          <li>Напоминания с настраиваемыми сроками; уведомления одного дня объединяются в одно.</li>
+          <li>290 автотестов на логику дат, группировку, импорт и планировщик уведомлений; сборки под Android и Windows.</li>
+        </ul>
+        <p class="chips">
+          <span>Dart</span><span>Flutter</span><span>Riverpod</span>
+          <span>Drift</span><span>SQLite</span><span>GoRouter</span>
+        </p>
+        <a class="case-link" href="https://github.com/x1emonadex/BirthdayCalendar" target="_blank" rel="noopener">Репозиторий и сборки →</a>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="case-media dl" data-tone="peach">
+        <p class="dl-title">Готовые сборки</p>
+        <a class="dl-row" href="https://github.com/x1emonadex/NGIEUAudience/releases/download/v2.0.0/NGIEUAudience-1.0.0.msi" target="_blank" rel="noopener">
+          <span class="dl-name">NGIEUAudience-1.0.0.msi</span>
+          <span class="dl-meta">Windows · 61,5 МБ</span>
+        </a>
+        <a class="dl-row" href="https://github.com/x1emonadex/NGIEUAudience/releases/download/v2.0.0-android/composeApp-debug.apk" target="_blank" rel="noopener">
+          <span class="dl-name">composeApp-debug.apk</span>
+          <span class="dl-meta">Android · 13,8 МБ</span>
+        </a>
+        <p class="dl-note">Один и тот же интерфейс на Android и на рабочем столе</p>
+      </div>
+      <div>
+        <p class="case-kicker">Кроссплатформенная разработка · Kotlin</p>
+        <h3>Свободные аудитории</h3>
+        <p class="case-lede">
+          Приложение показывает, какие аудитории заняты, а какие свободны
+          в выбранный день и пару — по расписанию всех групп.
+        </p>
+        <ul class="case-points">
+          <li>Загружает расписание студенческих групп через API и собирает занятость по кабинетам.</li>
+          <li>Фильтры по дню, паре, верхней и нижней неделе и диапазону номеров кабинетов; поиск по преподавателю, группе и предмету.</li>
+          <li>Один интерфейс на Android и рабочий стол, адаптивная вёрстка под узкий и широкий экран.</li>
+          <li>Готовые сборки приложения выложены в релизах репозитория.</li>
+        </ul>
+        <p class="chips">
+          <span>Kotlin</span><span>Compose Multiplatform</span><span>Ktor</span>
+          <span>kotlinx.serialization</span><span>Gradle</span>
+        </p>
+        <a class="case-link" href="https://github.com/x1emonadex/NGIEUAudience" target="_blank" rel="noopener">Репозиторий и релизы →</a>
+      </div>
+    </article>
+
+    <article class="case flip">
+      <div class="case-media" data-tone="sand">
+        <img src="assets/kmeans-window.png" alt="Окно приложения для кластеризации методом k-means" loading="lazy" />
+      </div>
+      <div>
+        <p class="case-kicker">Алгоритмы · C++</p>
+        <h3>Анализатор кластеризации K-means</h3>
+        <p class="case-lede">
+          Алгоритм k-means, написанный с нуля, и графическое приложение
+          под Windows: загрузка данных, кластеризация, метрики и отчёт.
+        </p>
+        <ul class="case-points">
+          <li>Алгоритм реализован самостоятельно: инициализация k-means++, пересчёт центроидов, условие сходимости.</li>
+          <li>Считает метрики качества: SSE, среднюю квадратичную ошибку, компактность и баланс кластеров.</li>
+          <li>Загружает CSV с автоопределением разделителя и заголовка, выгружает полный отчёт в файл.</li>
+          <li>Интерфейс на Win32 API с четырьмя вкладками результатов, без сторонних библиотек.</li>
+        </ul>
+        <p class="chips">
+          <span>C++17</span><span>Win32 API</span><span>MSVC / MinGW</span>
+        </p>
+        <a class="case-link" href="https://github.com/x1emonadex/K-means" target="_blank" rel="noopener">Репозиторий и тестовые данные →</a>
+      </div>
+    </article>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Стек</h2>
+      <p class="note">то, чем работал в проектах</p>
+    </div>
+    <div class="stack">
+      <div>
+        <h3>ИИ и зрение</h3>
+        <ul>
+          <li>Python</li>
+          <li>PyTorch (CUDA)</li>
+          <li>Ultralytics YOLO</li>
+          <li>OpenCV</li>
+          <li>NumPy, pandas</li>
+          <li>Подготовка и проверка разметки</li>
+          <li>Обучение и оценка моделей</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Приложения</h3>
+        <ul>
+          <li>Dart, Flutter</li>
+          <li>Riverpod, GoRouter</li>
+          <li>Kotlin</li>
+          <li>Compose Multiplatform</li>
+          <li>Ktor, kotlinx.serialization</li>
+          <li>C++17, Win32 API</li>
+          <li>Streamlit</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Данные</h3>
+        <ul>
+          <li>SQLite, Drift</li>
+          <li>SQL-запросы и схема БД</li>
+          <li>CSV и Excel</li>
+          <li>JSON</li>
+          <li>Обработка и валидация данных</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Инструменты</h3>
+        <ul>
+          <li>Git, GitHub</li>
+          <li>Gradle</li>
+          <li>VS Code</li>
+          <li>Виртуальные окружения Python</li>
+          <li>Автотесты</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="contact">
+      <div>
+        <h2>Связь и код</h2>
+        <p class="lede" style="margin-top: 10px;">
+          Все проекты с исходным кодом, описанием и результатами лежат на GitHub.
+          Резюме можно открыть на сайте или скачать в PDF.
+        </p>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="resume.html">Резюме</a>
+        <a class="btn" href="resume.pdf">PDF</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>Макаров Дмитрий · 2026</span>
+    <span>Сайт собран как статическая страница и публикуется через GitHub Pages</span>
+  </div>
+</footer>
+
+</body>
+</html>
