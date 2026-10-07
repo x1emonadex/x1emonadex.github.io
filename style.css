@@ -207,13 +207,41 @@ p { margin: 0; text-wrap: pretty; }
 
 .hero-art { display: flex; justify-content: center; }
 
-#lemon-canvas {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+/* пиксельное видео: внутри блока лежат скрытое видео и холст с «матрицей».
+   Размер ячейки задаётся скриптом, холст растягивается по блоку. */
+
+.hero-art .pixel-video {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
 }
+
+.pixel-video {
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-video__source {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pixel-video__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* запасной вариант: если холст недоступен (страница открыта как file://),
+   показываем само видео, без пикселизации */
+.pixel-video--fallback .pixel-video__source { opacity: 1; }
+.pixel-video--fallback .pixel-video__canvas { display: none; }
 
 /* ---------- блок с командами ---------- */
 

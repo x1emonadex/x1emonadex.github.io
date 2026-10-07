@@ -56,7 +56,7 @@
       </div>
 
       <div class="hero-art" aria-hidden="true">
-        <canvas id="lemon-canvas" width="392" height="392"></canvas>
+        <div class="pixel-video" data-pixel-video="assets/hero.mp4"></div>
       </div>
     </div>
 
@@ -372,107 +372,11 @@ gradlew :composeApp:assembleDebug</code></pre>
     });
   }
 
-  /* пиксельный лимон: спрайт 28x28 вращается вокруг своей оси.
-     Рисуем на canvas с отключённым сглаживанием — пиксели остаются
-     квадратными, как в пиксель-арте. */
-  var SPRITE = [
-    "............................",
-    "............................",
-    "............................",
-    "............................",
-    "...................GGg......",
-    "..................GGgg......",
-    ".................GGggG......",
-    "................GGggGG......",
-    "................GggGG.......",
-    "..........SSSSSGGgGGG.......",
-    "........SSLLLLLGggGG........",
-    "......SSLLLLLLLggGGSS.......",
-    ".....SLHHHHHLLLLLLLLLS......",
-    "....SLHWWWWHLLLLLLLLLLS.....",
-    "...SLLHWWWWHLLLLLLLLLLLS....",
-    "...SLLLHHHHLLLLLLLLLLLLS....",
-    "...SLLLLLLLLLLLLLLLLLLLS....",
-    "...SLLLLLLLLLLLLLLLLLLLS....",
-    "...OLLLLLLLLLLLLLLLLLLLS....",
-    "....SLLLLLLLLLLLLLLLLLS.....",
-    ".....OLLLLLLLLLLLLLLLO......",
-    "......SOLLLLLLLLLLLSS.......",
-    "........SSLLLLLLLSS.........",
-    "..........SSOSSSS...........",
-    "............................",
-    "............................",
-    "............................",
-    "............................"
-  ];
-
-  var LEMON_COLORS = {
-    "L": "#fce300", "H": "#fff9a6", "W": "#ffffff", "S": "#c29b00",
-    "O": "#ff962d", "G": "#2e7d32", "g": "#81c784", "T": "#7a5c2e"
-  };
-
-  var lemonCanvas = document.getElementById('lemon-canvas');
-
-  if (lemonCanvas && lemonCanvas.getContext) {
-    var lemonCtx = lemonCanvas.getContext('2d');
-    var spriteSize = SPRITE.length;
-
-    var spriteCanvas = document.createElement('canvas');
-    spriteCanvas.width = spriteCanvas.height = spriteSize;
-    var spriteCtx = spriteCanvas.getContext('2d');
-
-    SPRITE.forEach(function (row, y) {
-      row.split('').forEach(function (ch, x) {
-        var color = LEMON_COLORS[ch];
-        if (!color) return;
-        spriteCtx.fillStyle = color;
-        spriteCtx.fillRect(x, y, 1, 1);
-      });
-    });
-
-    var lemonReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var lemonAngle = -0.38;
-
-    var drawLemon = function () {
-      var side = lemonCanvas.width;
-      lemonCtx.imageSmoothingEnabled = false;
-      lemonCtx.clearRect(0, 0, side, side);
-      lemonCtx.save();
-      lemonCtx.translate(side / 2, side / 2);
-      lemonCtx.rotate(lemonAngle);
-      lemonCtx.drawImage(spriteCanvas, -side / 2, -side / 2, side, side);
-      lemonCtx.restore();
-    };
-
-    var fitLemon = function () {
-      var box = lemonCanvas.parentElement ? lemonCanvas.parentElement.clientWidth : 392;
-      var limit = Math.min(box || 392, 420);
-      var pixel = Math.max(6, Math.min(16, Math.floor(limit / spriteSize)));
-      var side = pixel * spriteSize;
-      lemonCanvas.width = lemonCanvas.height = side;
-      lemonCanvas.style.width = side + 'px';
-      lemonCanvas.style.height = side + 'px';
-      drawLemon();
-    };
-
-    if (!lemonReduce) {
-      var lemonRaf = window.requestAnimationFrame
-        ? window.requestAnimationFrame.bind(window)
-        : function (cb) { return setTimeout(cb, 16); };
-
-      (function lemonLoop() {
-        lemonAngle += 0.0045;
-        drawLemon();
-        lemonRaf(lemonLoop);
-      })();
-    }
-
-    window.addEventListener('resize', fitLemon);
-    fitLemon();
-  }
 
 })();
 </script>
+
+<script src="assets/pixel-video.js"></script>
 
 </body>
 </html>
