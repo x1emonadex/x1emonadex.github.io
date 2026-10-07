@@ -37,7 +37,10 @@
     coreBoost: 1.14,        // осветление тела
     levels: 7,              // ступеней квантования цвета (0 — выключено)
     /* цветные пиксели: бегут по контуру объекта */
-    palette: ['#ff3b30', '#ff8c2b', '#ffd23b', '#3aa0ff'],
+    palette: ['#8b1a1a', '#e60000', '#ff8c00', '#ffd700'],   // слои контура: от края внутрь
+    ringNavy: '#1b2f8a',    // редкие синие вкрапления по самому краю
+    ringChance: 0.09,
+    rings: 4,               // сколько слоёв красить
     glyphs: true,           // редкие символы в тёмных зонах
     glyphSet: '01+*#%',
     glyphShare: 0.09,       // доля тёмных ячеек с символом
@@ -149,11 +152,21 @@
     this._fit();
 
     if (!this.reduceMotion) {
-      /* Основной цикл — requestAnimationFrame; рисуем только когда видео
-         действительно ушло на новый кадр. */
+      /* Основной цикл — requestAnimationFrame. Рисуем, когда видео ушло
+         на новый кадр. Если время залипло (стык цикла, где currentTime
+         замирает на нуле), перезапускаем ролик сами. */
+      var stuck = 0;
       var loop = function () {
-        if (self.frame === 0 || video.currentTime !== self._lastTime) {
+        var advanced = video.currentTime !== self._lastTime;
+        if (self.frame === 0 || advanced) {
           self.draw();
+          stuck = 0;
+        } else if (!video.paused && video.readyState >= 2) {
+          stuck++;
+          if (stuck === 45) {
+            stuck = 0;
+            try { video.currentTime = 0.05; video.play(); } catch (e) {}
+          }
         }
         self._raf(loop);
       };
@@ -290,6 +303,27 @@
     var span = Math.max(1, opt.highCut - opt.lowCut);
     var glyphBudget = 60;
 
+    // слои контура: расстояние каждой ячейки до фона (два прохода)
+    var dist = this.dist;
+    if (!dist || dist.length !== total) dist = this.dist = new Uint16Array(total);
+    for (var i = 0; i < total; i++) dist[i] = (lum[i] > opt.lowCut) ? 65000 : 0;
+    for (var ry = 0; ry < rows; ry++) {
+      for (var rx = 0; rx < cols; rx++) {
+        var rk = ry * cols + rx;
+        if (dist[rk] === 0) continue;
+        if (rx > 0 && dist[rk - 1] + 1 < dist[rk]) dist[rk] = dist[rk - 1] + 1;
+        if (ry > 0 && dist[rk - cols] + 1 < dist[rk]) dist[rk] = dist[rk - cols] + 1;
+      }
+    }
+    for (var ry2 = rows - 1; ry2 >= 0; ry2--) {
+      for (var rx2 = cols - 1; rx2 >= 0; rx2--) {
+        var rk2 = ry2 * cols + rx2;
+        if (dist[rk2] === 0) continue;
+        if (rx2 < cols - 1 && dist[rk2 + 1] + 1 < dist[rk2]) dist[rk2] = dist[rk2 + 1] + 1;
+        if (ry2 < rows - 1 && dist[rk2 + cols] + 1 < dist[rk2]) dist[rk2] = dist[rk2 + cols] + 1;
+      }
+    }
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -322,19 +356,21 @@
           continue;
         }
 
-        // край: рядом резкий перепад яркости — там пиксели красятся
-        var isEdge = (x > 0 && Math.abs(level - lum[idx - 1]) > opt.edgeDelta) ||
-                     (x < cols - 1 && Math.abs(level - lum[idx + 1]) > opt.edgeDelta) ||
-                     (y > 0 && Math.abs(level - lum[idx - cols]) > opt.edgeDelta) ||
-                     (y < rows - 1 && Math.abs(level - lum[idx + cols]) > opt.edgeDelta);
+        // край: слои контура по расстоянию до фона — тёмно-красный,
+        // красный, оранжевый, золотой; дальше обычный цвет кадра
+        var layer = dist[idx];
 
         var scale = opt.minScale + (1 - opt.minScale) * Math.pow(t, opt.gamma);
         var side = cellPx * scale;
         var ox = px + (cellW - side) / 2;
         var oy = py + (cellH - side) / 2;
 
-        if (isEdge) {
-          ctx.fillStyle = paletteAt((x * 0.55 + y * 0.85) * 0.45 + time * opt.speed * 2.2, opt);
+        if (layer <= opt.rings) {
+          if (layer === 1 && hash01(x, y, 0) < opt.ringChance) {
+            ctx.fillStyle = opt.ringNavy;
+          } else {
+            ctx.fillStyle = opt.palette[layer - 1];
+          }
         } else {
           var qr = quantize(Math.min(255, data[idx * 4] * opt.coreBoost), opt.levels);
           var qg = quantize(Math.min(255, data[idx * 4 + 1] * opt.coreBoost), opt.levels);
