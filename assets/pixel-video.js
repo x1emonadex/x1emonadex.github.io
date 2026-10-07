@@ -331,6 +331,18 @@
     ctx.textBaseline = 'middle';
     ctx.font = Math.round(cellPx * 0.95) + 'px "JetBrains Mono", Consolas, monospace';
 
+    /* Копим прямоугольники по цвету: смена fillStyle на каждую ячейку
+       тормозит отрисовку, а так на весь кадр остаётся десяток заливок. */
+    var batches = this._batches || (this._batches = {});
+    for (var bk in batches) delete batches[bk];
+    var colors = this._colors || (this._colors = {});
+    var dustKey = 'rgba(140,160,170,0.35)';
+    var push = function (color, rx, ry, rw, rh) {
+      var arr = batches[color];
+      if (arr === undefined) arr = batches[color] = [];
+      arr.push(rx, ry, rw, rh);
+    };
+
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
         var idx = y * cols + x;
@@ -350,8 +362,7 @@
                          px + cellW / 2, py + cellH / 2);
             glyphBudget--;
           } else if (opt.dust && hash01(x, y, this.frame + 7) < 0.012) {
-            ctx.fillStyle = 'rgba(140,160,170,0.35)';
-            ctx.fillRect(px + cellW * 0.4, py + cellH * 0.4, cellPx * 0.22, cellPx * 0.22);
+            push(dustKey, px + cellW * 0.4, py + cellH * 0.4, cellPx * 0.22, cellPx * 0.22);
           }
           continue;
         }
@@ -367,19 +378,30 @@
 
         if (layer <= opt.rings) {
           if (layer === 1 && hash01(x, y, 0) < opt.ringChance) {
-            ctx.fillStyle = opt.ringNavy;
+            push(opt.ringNavy, ox, oy, side, side);
           } else {
-            ctx.fillStyle = opt.palette[layer - 1];
+            push(opt.palette[layer - 1], ox, oy, side, side);
           }
         } else {
           var qr = quantize(Math.min(255, data[idx * 4] * opt.coreBoost), opt.levels);
           var qg = quantize(Math.min(255, data[idx * 4 + 1] * opt.coreBoost), opt.levels);
           var qb = quantize(Math.min(255, data[idx * 4 + 2] * opt.coreBoost), opt.levels);
-          ctx.fillStyle = 'rgb(' + qr + ',' + qg + ',' + qb + ')';
+          var key = (qr << 16) | (qg << 8) | qb;
+          var col = colors[key];
+          if (col === undefined) col = colors[key] = 'rgb(' + qr + ',' + qg + ',' + qb + ')';
+          push(col, ox, oy, side, side);
         }
-
-        ctx.fillRect(ox, oy, side, side);
       }
+    }
+
+    for (var ck in batches) {
+      var rects = batches[ck];
+      ctx.fillStyle = ck;
+      ctx.beginPath();
+      for (var ri = 0; ri < rects.length; ri += 4) {
+        ctx.rect(rects[ri], rects[ri + 1], rects[ri + 2], rects[ri + 3]);
+      }
+      ctx.fill();
     }
 
     // 5. запоминаем яркость для определения движения на следующем кадре
