@@ -27,11 +27,11 @@
 
   var DEFAULTS = {
     src: '',                // путь к .mp4
-    pixelSize: 8,           // размер ячейки сетки на экране, px
+    pixelSize: 6,           // размер ячейки сетки на экране, px
     lowCut: 26,             // яркость, ниже которой квадрат минимальный
     highCut: 168,           // яркость, при которой квадрат занимает всю ячейку
     minScale: 0.1,          // минимальный размер квадрата (доля ячейки)
-    gamma: 2.2,             // кривая роста: середина рассыпается в точки, яркое сливается
+    gamma: 1.3,             // кривая роста: середина держит массу, тени рассыпаются
     edgeDelta: 46,          // перепад яркости, при котором пиксель считается краем
     speed: 0.7,             // скорость переливания цветов
     coreBoost: 1.14,        // осветление тела
@@ -205,17 +205,25 @@
 
     this.dispW = width;
     this.dispH = height;
-    this.canvas.width = Math.round(width * dpr);
-    this.canvas.height = Math.round(height * dpr);
-    this.canvas.style.width = width + 'px';
-    this.canvas.style.height = height + 'px';
 
-    this.cols = Math.max(2, Math.round(width / opt.pixelSize));
-    this.rows = Math.max(2, Math.round(height / opt.pixelSize));
-    this.sample.width = this.cols;
-    this.sample.height = this.rows;
-    this.cellW = this.canvas.width / this.cols;
-    this.cellH = this.canvas.height / this.rows;
+    /* Ячейка — целое число физических пикселей. Иначе размер клетки
+       дробный (например 420/52 = 8.077) и между квадратами проступают
+       тёмные щели шириной в пиксель — видно как сетка и полосы. */
+    var cellPx = Math.max(2, Math.round(opt.pixelSize * dpr));
+    var cols = Math.max(2, Math.floor((width * dpr) / cellPx));
+    var rows = Math.max(2, Math.floor((height * dpr) / cellPx));
+
+    this.canvas.width = cols * cellPx;
+    this.canvas.height = rows * cellPx;
+    this.canvas.style.width = (cols * cellPx / dpr) + 'px';
+    this.canvas.style.height = (rows * cellPx / dpr) + 'px';
+
+    this.cols = cols;
+    this.rows = rows;
+    this.sample.width = cols;
+    this.sample.height = rows;
+    this.cellW = cellPx;
+    this.cellH = cellPx;
 
     this.lum = new Float32Array(this.cols * this.rows);
     this.mask = new Uint8Array(this.cols * this.rows);
@@ -362,7 +370,8 @@
                          px + cellW / 2, py + cellH / 2);
             glyphBudget--;
           } else if (opt.dust && hash01(x, y, this.frame + 7) < 0.012) {
-            push(dustKey, px + cellW * 0.4, py + cellH * 0.4, cellPx * 0.22, cellPx * 0.22);
+            var dust = Math.max(1, Math.round(cellPx * 0.22));
+            push(dustKey, px + Math.round(cellW * 0.4), py + Math.round(cellH * 0.4), dust, dust);
           }
           continue;
         }
@@ -372,9 +381,11 @@
         var layer = dist[idx];
 
         var scale = opt.minScale + (1 - opt.minScale) * Math.pow(t, opt.gamma);
-        var side = cellPx * scale;
-        var ox = px + (cellW - side) / 2;
-        var oy = py + (cellH - side) / 2;
+        // координаты и размер — целые физические пиксели: квадраты стыкуются
+        // без швов, а не размазываются по краям
+        var side = Math.max(1, Math.round(cellPx * scale));
+        var ox = px + Math.round((cellW - side) / 2);
+        var oy = py + Math.round((cellH - side) / 2);
 
         if (layer <= opt.rings) {
           if (layer === 1 && hash01(x, y, 0) < opt.ringChance) {
