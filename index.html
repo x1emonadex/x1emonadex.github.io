@@ -29,7 +29,7 @@
       <a href="resume.html">Резюме</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn btn-outline btn-sm" href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-quiet btn-sm" href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
       <a class="btn btn-solid btn-sm" href="resume.pdf">Скачать резюме</a>
     </div>
   </div>
@@ -49,30 +49,12 @@
         </p>
         <div class="actions">
           <a class="btn btn-solid" href="#projects">Смотреть проекты</a>
-          <a class="btn btn-outline" href="resume.html">Резюме на сайте</a>
+          <a class="btn" href="resume.html">Резюме на сайте</a>
         </div>
       </div>
 
       <div class="hero-art" aria-hidden="true">
-        <svg class="lemon" viewBox="0 0 400 400" fill="none">
-          <path d="M262 58c30-24 70-26 94-22-4 24-20 56-50 70-20 9-40 3-50-7 7-20 22-34 6-41z"
-                fill="#2e7d32" />
-          <path d="M266 62c26-18 60-21 84-20" stroke="#81c784" stroke-width="2.4" fill="none" />
-          <circle cx="200" cy="200" r="148" fill="#fce300" stroke="#c29b00" stroke-width="3.5" />
-          <circle cx="200" cy="200" r="122" fill="none" stroke="#c29b00" stroke-width="1.6" opacity="0.6" />
-          <g class="lemon-spokes" stroke="#c29b00" stroke-width="2" opacity="0.85">
-            <line x1="200" y1="76" x2="200" y2="324" />
-            <line x1="200" y1="76" x2="200" y2="324" transform="rotate(45 200 200)" />
-            <line x1="200" y1="76" x2="200" y2="324" transform="rotate(90 200 200)" />
-            <line x1="200" y1="76" x2="200" y2="324" transform="rotate(135 200 200)" />
-          </g>
-          <g fill="#fff9a6" opacity="0.95">
-            <ellipse cx="200" cy="146" rx="8" ry="11" />
-            <ellipse cx="254" cy="200" rx="8" ry="11" transform="rotate(90 254 200)" />
-            <ellipse cx="200" cy="254" rx="8" ry="11" />
-            <ellipse cx="146" cy="200" rx="8" ry="11" transform="rotate(90 146 200)" />
-          </g>
-        </svg>
+        <canvas id="lemon-canvas" width="392" height="392"></canvas>
       </div>
     </div>
 
@@ -125,7 +107,7 @@ gradlew :composeApp:assembleDebug</code></pre>
               <img src="assets/sived-detection.jpg" alt="Результат обнаружения транспортных средств на радиолокационном снимке" loading="lazy" />
             </div>
           </div>
-          <a class="btn btn-lime" href="https://github.com/x1emonadex/sived-sar-vehicle-detection" target="_blank" rel="noopener">Открыть репозиторий</a>
+          <a class="btn" href="https://github.com/x1emonadex/sived-sar-vehicle-detection" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
 
         <article class="card">
@@ -141,7 +123,7 @@ gradlew :composeApp:assembleDebug</code></pre>
               <img src="assets/birthday-edit.png" alt="Экран редактирования записи" loading="lazy" />
             </div>
           </div>
-          <a class="btn btn-lime" href="https://github.com/x1emonadex/BirthdayCalendar" target="_blank" rel="noopener">Открыть репозиторий</a>
+          <a class="btn" href="https://github.com/x1emonadex/BirthdayCalendar" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
 
         <article class="card">
@@ -161,7 +143,7 @@ gradlew :composeApp:assembleDebug</code></pre>
               <span class="dl-meta">Android · 13,8 МБ</span>
             </a>
           </div>
-          <a class="btn btn-lime" href="https://github.com/x1emonadex/NGIEUAudience" target="_blank" rel="noopener">Открыть репозиторий</a>
+          <a class="btn" href="https://github.com/x1emonadex/NGIEUAudience" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
 
         <article class="card">
@@ -176,7 +158,7 @@ gradlew :composeApp:assembleDebug</code></pre>
               <img src="assets/kmeans-window.png" alt="Окно приложения для кластеризации методом k-means" loading="lazy" />
             </div>
           </div>
-          <a class="btn btn-lime" href="https://github.com/x1emonadex/K-means" target="_blank" rel="noopener">Открыть репозиторий</a>
+          <a class="btn" href="https://github.com/x1emonadex/K-means" target="_blank" rel="noopener">Открыть репозиторий</a>
         </article>
       </div>
     </div>
@@ -326,8 +308,8 @@ gradlew :composeApp:assembleDebug</code></pre>
         </div>
         <div class="actions">
           <a class="btn btn-solid" href="https://github.com/x1emonadex" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn btn-outline" href="resume.html">Резюме</a>
-          <a class="btn btn-outline" href="resume.pdf">PDF</a>
+          <a class="btn btn-quiet" href="resume.html">Резюме</a>
+          <a class="btn btn-quiet" href="resume.pdf">PDF</a>
         </div>
       </div>
     </div>
@@ -372,6 +354,105 @@ gradlew :composeApp:assembleDebug</code></pre>
         setTimeout(function () { copyBtn.textContent = 'Скопировать'; }, 1800);
       });
     });
+  }
+
+  /* пиксельный лимон: спрайт 28x28 вращается вокруг своей оси.
+     Рисуем на canvas с отключённым сглаживанием — пиксели остаются
+     квадратными, как в пиксель-арте. */
+  var SPRITE = [
+    "............................",
+    "............................",
+    "............................",
+    "............................",
+    "...................GGg......",
+    "..................GGgg......",
+    ".................GGggG......",
+    "................GGggGG......",
+    "................GggGG.......",
+    "..........SSSSSGGgGGG.......",
+    "........SSLLLLLGggGG........",
+    "......SSLLLLLLLggGGSS.......",
+    ".....SLHHHHHLLLLLLLLLS......",
+    "....SLHWWWWHLLLLLLLLLLS.....",
+    "...SLLHWWWWHLLLLLLLLLLLS....",
+    "...SLLLHHHHLLLLLLLLLLLLS....",
+    "...SLLLLLLLLLLLLLLLLLLLS....",
+    "...SLLLLLLLLLLLLLLLLLLLS....",
+    "...OLLLLLLLLLLLLLLLLLLLS....",
+    "....SLLLLLLLLLLLLLLLLLS.....",
+    ".....OLLLLLLLLLLLLLLLO......",
+    "......SOLLLLLLLLLLLSS.......",
+    "........SSLLLLLLLSS.........",
+    "..........SSOSSSS...........",
+    "............................",
+    "............................",
+    "............................",
+    "............................"
+  ];
+
+  var LEMON_COLORS = {
+    "L": "#fce300", "H": "#fff9a6", "W": "#ffffff", "S": "#c29b00",
+    "O": "#ff962d", "G": "#2e7d32", "g": "#81c784", "T": "#7a5c2e"
+  };
+
+  var lemonCanvas = document.getElementById('lemon-canvas');
+
+  if (lemonCanvas && lemonCanvas.getContext) {
+    var lemonCtx = lemonCanvas.getContext('2d');
+    var spriteSize = SPRITE.length;
+
+    var spriteCanvas = document.createElement('canvas');
+    spriteCanvas.width = spriteCanvas.height = spriteSize;
+    var spriteCtx = spriteCanvas.getContext('2d');
+
+    SPRITE.forEach(function (row, y) {
+      row.split('').forEach(function (ch, x) {
+        var color = LEMON_COLORS[ch];
+        if (!color) return;
+        spriteCtx.fillStyle = color;
+        spriteCtx.fillRect(x, y, 1, 1);
+      });
+    });
+
+    var lemonReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var lemonAngle = -0.38;
+
+    var drawLemon = function () {
+      var side = lemonCanvas.width;
+      lemonCtx.imageSmoothingEnabled = false;
+      lemonCtx.clearRect(0, 0, side, side);
+      lemonCtx.save();
+      lemonCtx.translate(side / 2, side / 2);
+      lemonCtx.rotate(lemonAngle);
+      lemonCtx.drawImage(spriteCanvas, -side / 2, -side / 2, side, side);
+      lemonCtx.restore();
+    };
+
+    var fitLemon = function () {
+      var box = lemonCanvas.parentElement ? lemonCanvas.parentElement.clientWidth : 392;
+      var limit = Math.min(box || 392, 420);
+      var pixel = Math.max(6, Math.min(16, Math.floor(limit / spriteSize)));
+      var side = pixel * spriteSize;
+      lemonCanvas.width = lemonCanvas.height = side;
+      lemonCanvas.style.width = side + 'px';
+      lemonCanvas.style.height = side + 'px';
+      drawLemon();
+    };
+
+    if (!lemonReduce) {
+      var lemonRaf = window.requestAnimationFrame
+        ? window.requestAnimationFrame.bind(window)
+        : function (cb) { return setTimeout(cb, 16); };
+
+      (function lemonLoop() {
+        lemonAngle += 0.0045;
+        drawLemon();
+        lemonRaf(lemonLoop);
+      })();
+    }
+
+    window.addEventListener('resize', fitLemon);
+    fitLemon();
   }
 
   /* «окно» на фотографиях: картинка внутри кадра выше самого кадра и
