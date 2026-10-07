@@ -268,10 +268,15 @@
       lum[i] = 0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2];
     }
 
-    // на стыке цикла видео может отдать пустой кадр — не гасим картинку
+    // пустой кадр на стыке цикла не затирает картинку
     var totalLum = 0;
     for (var s = 0; s < total; s++) totalLum += lum[s];
-    if (this.frame > 0 && totalLum < total * 3) return;
+    if (totalLum < total * 4) {
+      if (video.ended || video.currentTime > video.duration - 0.15) {
+        try { video.currentTime = 0.05; video.play(); } catch (e) {}
+      }
+      return;
+    }
 
     /* 2. отрисовка «матрицей»: каждая ячейка сетки загорается квадратом,
        размер которого зависит от яркости кадра — яркое сливается в массу,
