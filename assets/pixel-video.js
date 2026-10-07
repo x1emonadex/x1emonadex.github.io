@@ -314,7 +314,7 @@
     // слои контура: расстояние каждой ячейки до фона (два прохода)
     var dist = this.dist;
     if (!dist || dist.length !== total) dist = this.dist = new Uint16Array(total);
-    for (var i = 0; i < total; i++) dist[i] = (lum[i] > opt.lowCut) ? 65000 : 0;
+    for (var i = 0; i < total; i++) dist[i] = (lum[i] > opt.lowCut + 4) ? 65000 : 0;
     for (var ry = 0; ry < rows; ry++) {
       for (var rx = 0; rx < cols; rx++) {
         var rk = ry * cols + rx;
@@ -361,7 +361,7 @@
         var px = x * cellW;
         var py = y * cellH;
 
-        if (t <= 0.001) {
+        if (t <= 0.03) {
           // тёмная зона: редкие символы и «пыль»
           if (opt.glyphs && glyphBudget > 0 && level > opt.lowCut * 0.4 &&
               hash01(x, y, this.frame) < opt.glyphShare) {
