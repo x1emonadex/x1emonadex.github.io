@@ -1,22 +1,27 @@
 /* ============================================================
    Портфолио — оформление
-   Палитра: лайм, лимон и глубокий зелёный (лимонад).
-   Цветные полосы во всю ширину, крупная сжатая типографика,
-   без градиентов, теней и «стекла».
+   Палитра лимона и листа:
+     блик лимона #FFF9A6 · базовый лимон #FCE300 · тень лимона #C29B00
+     блик листа  #81C784 · базовый лист  #2E7D32 · тень листа  #1B5E20
+   Светлые лимонные поля, насыщенный лимон только на небольших
+   акцентах, глубокий зелёный — для тёмных полос и текста.
    ============================================================ */
 
 :root {
-  --lime: #d6f24b;
-  --lime-soft: #e4f88a;
-  --lemon: #f4e14e;
-  --green: #0d4a29;
-  --green-band: #07351d;
-  --green-deep: #041c0f;
-  --ink: #08150a;
-  --cream: #f6f7ec;
-  --paper: #ffffff;
-  --muted: #5c6b52;
-  --muted-dark: #9dbba4;
+  --lemon-hi: #fff9a6;
+  --lemon: #fce300;
+  --lemon-sh: #c29b00;
+  --gold: #8a6d00;
+
+  --leaf-hi: #81c784;
+  --leaf: #2e7d32;
+  --leaf-sh: #1b5e20;
+
+  --ink: #17250e;
+  --paper: #fffdf7;
+  --cream: #fdfae8;
+  --muted: #6b7a5c;
+  --muted-dark: #cfe0cc;
 
   --radius: 8px;
   --radius-sm: 5px;
@@ -70,7 +75,7 @@ p { margin: 0; text-wrap: pretty; }
   font-weight: 500;
 }
 
-.label-lime { color: var(--lime); }
+.label-lemon { color: var(--lemon); }
 
 /* ---------- кнопки ---------- */
 
@@ -96,17 +101,21 @@ p { margin: 0; text-wrap: pretty; }
 
 .btn-sm { min-height: 38px; padding: 0 15px; font-size: 0.72rem; }
 
-.btn-solid { background: var(--ink); border-color: var(--ink); color: var(--lime); }
-.btn-solid:hover { background: var(--green); border-color: var(--green); }
+.btn-solid {
+  background: var(--leaf-sh);
+  border-color: var(--leaf-sh);
+  color: var(--lemon);
+}
+.btn-solid:hover { background: var(--leaf); border-color: var(--leaf); }
 
-.btn-outline:hover { background: var(--ink); color: var(--lime); }
+.btn-outline:hover { background: var(--leaf-sh); border-color: var(--leaf-sh); color: var(--lemon); }
 
-.btn-lime {
-  background: var(--lime);
-  border-color: var(--lime);
+.btn-lemon {
+  background: var(--lemon);
+  border-color: var(--lemon);
   color: var(--ink);
 }
-.btn-lime:hover { background: var(--paper); border-color: var(--paper); }
+.btn-lemon:hover { background: var(--paper); border-color: var(--paper); }
 
 /* ---------- верхняя панель ---------- */
 
@@ -114,8 +123,8 @@ p { margin: 0; text-wrap: pretty; }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--lime);
-  border-bottom: 1px solid rgba(8, 21, 10, 0.16);
+  background: var(--lemon-hi);
+  border-bottom: 1px solid rgba(23, 37, 14, 0.16);
 }
 
 .topbar-inner {
@@ -137,8 +146,8 @@ p { margin: 0; text-wrap: pretty; }
   width: 34px;
   height: 34px;
   border-radius: var(--radius-sm);
-  background: var(--ink);
-  color: var(--lime);
+  background: var(--leaf-sh);
+  color: var(--lemon);
   display: grid;
   place-items: center;
   font-family: var(--font-display);
@@ -172,12 +181,12 @@ p { margin: 0; text-wrap: pretty; }
 
 .topbar-actions { display: flex; gap: 9px; }
 
-/* ---------- герой ---------- */
+/* ---------- первый экран ---------- */
 
 .hero {
-  background: var(--lime);
+  background: var(--lemon-hi);
   padding: 58px 0 54px;
-  border-bottom: 1px solid rgba(8, 21, 10, 0.16);
+  border-bottom: 1px solid rgba(23, 37, 14, 0.16);
 }
 
 .hero-grid {
@@ -198,22 +207,18 @@ p { margin: 0; text-wrap: pretty; }
   margin-top: 22px;
   max-width: 52ch;
   font-size: 1.06rem;
-  color: #172a15;
+  color: #2b3a1e;
 }
 
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 
 .hero-art { display: flex; justify-content: center; }
 
-.lemon {
-  width: min(100%, 420px);
-  height: auto;
-  color: var(--ink);
-}
+.lemon { width: min(100%, 420px); height: auto; }
 
 .lemon-spokes {
   transform-origin: 200px 200px;
-  animation: lemon-turn 60s linear infinite;
+  animation: lemon-turn 70s linear infinite;
 }
 
 @keyframes lemon-turn {
@@ -231,8 +236,8 @@ p { margin: 0; text-wrap: pretty; }
 .terminal {
   margin-top: 44px;
   border-radius: var(--radius);
-  background: var(--green-deep);
-  border: 1px solid rgba(214, 242, 75, 0.28);
+  background: var(--leaf-sh);
+  border: 1px solid rgba(252, 227, 0, 0.3);
   overflow: hidden;
 }
 
@@ -242,10 +247,10 @@ p { margin: 0; text-wrap: pretty; }
   align-items: center;
   gap: 14px;
   padding: 14px 18px;
-  border-bottom: 1px solid rgba(214, 242, 75, 0.2);
+  border-bottom: 1px solid rgba(252, 227, 0, 0.24);
 }
 
-.term-head .label { color: var(--muted-dark); }
+.term-head .label { color: var(--lemon-hi); }
 
 .term-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
 
@@ -254,19 +259,19 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted-dark);
+  color: var(--lemon-hi);
   background: transparent;
-  border: 1px solid rgba(214, 242, 75, 0.25);
+  border: 1px solid rgba(252, 227, 0, 0.35);
   border-radius: var(--radius-sm);
   padding: 7px 12px;
   cursor: pointer;
 }
 
-.term-tabs button:hover { color: var(--lime); border-color: var(--lime); }
+.term-tabs button:hover { color: var(--lemon); border-color: var(--lemon); }
 
 .term-tabs button.is-active {
-  background: var(--lime);
-  border-color: var(--lime);
+  background: var(--lemon);
+  border-color: var(--lemon);
   color: var(--ink);
 }
 
@@ -276,14 +281,14 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
   background: transparent;
-  color: var(--lime);
-  border: 1px solid rgba(214, 242, 75, 0.45);
+  color: var(--lemon);
+  border: 1px solid rgba(252, 227, 0, 0.5);
   border-radius: var(--radius-sm);
   padding: 7px 13px;
   cursor: pointer;
 }
 
-.term-copy:hover { background: var(--lime); color: var(--ink); }
+.term-copy:hover { background: var(--lemon); color: var(--ink); }
 
 .term-body {
   margin: 0;
@@ -292,17 +297,17 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-mono);
   font-size: 0.86rem;
   line-height: 1.75;
-  color: #e9f7c9;
+  color: var(--lemon-hi);
 }
 
 .term-body code { font-family: inherit; white-space: pre; }
 
 /* ---------- секции ---------- */
 
-.band-green { background: var(--green-band); color: #eef7e4; padding: 62px 0 66px; }
+.band-green { background: var(--leaf-sh); color: #eef4e8; padding: 62px 0 66px; }
 .band-cream { background: var(--cream); padding: 62px 0 66px; }
 .band-paper { background: var(--paper); padding: 62px 0 66px; }
-.band-dark { background: var(--green-deep); color: var(--muted-dark); }
+.band-dark { background: var(--leaf-sh); color: var(--muted-dark); }
 
 .band-head { margin-bottom: 34px; }
 
@@ -312,7 +317,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 
 .band-head .label { color: var(--muted); }
-.band-green .band-head .label { color: var(--lime); }
+.band-green .band-head .label { color: var(--lemon); }
 
 .band-sub {
   margin-top: 12px;
@@ -336,7 +341,7 @@ p { margin: 0; text-wrap: pretty; }
   padding: 24px;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(214, 242, 75, 0.22);
+  border: 1px solid rgba(252, 227, 0, 0.26);
   overflow: hidden;
 }
 
@@ -353,14 +358,14 @@ p { margin: 0; text-wrap: pretty; }
 
 .card h3 { font-size: 1.34rem; color: #ffffff; }
 
-.card-text { color: #cfe0c6; font-size: 0.97rem; }
+.card-text { color: #cfe0cc; font-size: 0.97rem; }
 
 .card-shot {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .card-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -379,16 +384,16 @@ p { margin: 0; text-wrap: pretty; }
   text-decoration: none;
   padding: 11px 13px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(214, 242, 75, 0.28);
+  border: 1px solid rgba(252, 227, 0, 0.32);
   background: rgba(255, 255, 255, 0.05);
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  color: #e9f7c9;
+  color: var(--lemon-hi);
 }
 
-.dl-row:hover { border-color: var(--lime); background: rgba(214, 242, 75, 0.12); }
+.dl-row:hover { border-color: var(--lemon); background: rgba(252, 227, 0, 0.14); }
 
-.dl-meta { color: var(--lime); white-space: nowrap; }
+.dl-meta { color: var(--lemon); white-space: nowrap; }
 
 /* ---------- результаты ---------- */
 
@@ -398,12 +403,12 @@ p { margin: 0; text-wrap: pretty; }
   gap: 30px 44px;
 }
 
-.fact { border-top: 2px solid var(--green); padding-top: 18px; }
+.fact { border-top: 2px solid var(--lemon); padding-top: 18px; }
 
 .fact-num {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  color: var(--green);
+  color: var(--leaf);
   letter-spacing: 0.02em;
 }
 
@@ -415,10 +420,10 @@ p { margin: 0; text-wrap: pretty; }
   display: grid;
   gap: 7px;
   font-size: 0.96rem;
-  color: #26331f;
+  color: #2f3d26;
 }
 
-.fact li::marker { color: var(--green); }
+.fact li::marker { color: var(--leaf); }
 
 /* ---------- стек ---------- */
 
@@ -428,16 +433,16 @@ p { margin: 0; text-wrap: pretty; }
   gap: 28px;
 }
 
-.stack-col { border-top: 2px solid var(--lime); padding-top: 16px; }
+.stack-col { border-top: 2px solid var(--lemon); padding-top: 16px; }
 
 .stack-col h3 {
   font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.13em;
-  color: var(--muted);
+  color: var(--leaf);
   font-weight: 500;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(8, 21, 10, 0.12);
+  border-bottom: 1px solid rgba(23, 37, 14, 0.12);
 }
 
 .stack-col ul {
@@ -453,11 +458,9 @@ p { margin: 0; text-wrap: pretty; }
 
 .faq { margin-top: 62px; }
 
-.faq details {
-  border-top: 1px solid rgba(8, 21, 10, 0.16);
-}
+.faq details { border-top: 1px solid rgba(23, 37, 14, 0.16); }
 
-.faq details:last-of-type { border-bottom: 1px solid rgba(8, 21, 10, 0.16); }
+.faq details:last-of-type { border-bottom: 1px solid rgba(23, 37, 14, 0.16); }
 
 .faq summary {
   display: flex;
@@ -479,7 +482,7 @@ p { margin: 0; text-wrap: pretty; }
   content: "+";
   font-family: var(--font-mono);
   font-size: 1.35rem;
-  color: var(--green);
+  color: var(--leaf);
   line-height: 1;
 }
 
@@ -488,10 +491,10 @@ p { margin: 0; text-wrap: pretty; }
 .faq details p {
   padding: 0 0 20px;
   max-width: 70ch;
-  color: #2b3a26;
+  color: #2f3d26;
 }
 
-.faq details a { color: var(--green); }
+.faq details a { color: var(--leaf); }
 
 /* ---------- связь ---------- */
 
@@ -504,11 +507,13 @@ p { margin: 0; text-wrap: pretty; }
   margin-top: 62px;
   padding: 30px 32px;
   border-radius: var(--radius);
-  background: var(--lime);
-  border: 1px solid rgba(8, 21, 10, 0.18);
+  background: var(--lemon);
+  border: 1px solid rgba(23, 37, 14, 0.18);
 }
 
 .contact h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-top: 10px; }
+
+.contact .label { color: var(--gold); }
 
 .contact .actions { margin-top: 0; }
 
@@ -544,7 +549,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 
 .resume-head {
-  border-bottom: 2px solid var(--green);
+  border-bottom: 2px solid var(--lemon);
   padding-bottom: 20px;
 }
 
@@ -554,7 +559,7 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-display);
   text-transform: uppercase;
   font-size: 1.06rem;
-  color: var(--green);
+  color: var(--leaf);
   margin-top: 8px;
 }
 
@@ -568,7 +573,7 @@ p { margin: 0; text-wrap: pretty; }
   color: var(--muted);
 }
 
-.resume-head .links a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(13, 74, 41, 0.35); }
+.resume-head .links a { color: var(--leaf); text-decoration: none; border-bottom: 1px solid rgba(46, 125, 50, 0.4); }
 
 .resume h2 {
   font-family: var(--font-mono);
@@ -578,7 +583,7 @@ p { margin: 0; text-wrap: pretty; }
   font-weight: 500;
   margin: 34px 0 16px;
   padding-bottom: 9px;
-  border-bottom: 1px solid rgba(8, 21, 10, 0.16);
+  border-bottom: 1px solid rgba(23, 37, 14, 0.16);
 }
 
 .resume .profile { font-size: 1.02rem; max-width: 78ch; }
@@ -597,11 +602,11 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--green);
+  color: var(--leaf);
   padding-top: 3px;
 }
 
-.job { padding: 20px 0; border-top: 1px solid rgba(8, 21, 10, 0.14); }
+.job { padding: 20px 0; border-top: 1px solid rgba(23, 37, 14, 0.14); }
 
 .job:first-of-type { border-top: 0; padding-top: 0; }
 
@@ -622,16 +627,16 @@ p { margin: 0; text-wrap: pretty; }
   display: grid;
   gap: 6px;
   font-size: 0.95rem;
-  color: #26331f;
+  color: #2f3d26;
 }
 
-.job li::marker { color: var(--green); }
+.job li::marker { color: var(--leaf); }
 
 .job .repo {
   margin-top: 12px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--green);
+  color: var(--leaf);
 }
 
 /* ---------- адаптив ---------- */
