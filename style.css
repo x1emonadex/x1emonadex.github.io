@@ -554,12 +554,13 @@ p { margin: 0; text-wrap: pretty; }
 }
 
 /* ============================================================
-   Страница резюме — светлая, для чтения и печати
+   Страница резюме — та же тёмная тема, что и портфолио.
+   Для печати в PDF ниже отдельные светлые правила.
    ============================================================ */
 
 body.resume-page {
-  background: #ffffff;
-  color: #17250e;
+  background: var(--black);
+  color: var(--white);
 }
 
 .resume {
@@ -575,33 +576,24 @@ body.resume-page {
   margin-bottom: 30px;
 }
 
-.resume-page .btn {
-  border-color: rgba(46, 125, 50, 0.5);
-  color: #2e7d32;
-}
-
-.resume-page .btn:hover { background: rgba(46, 125, 50, 0.08); border-color: #2e7d32; }
-
-.resume-page .btn-solid {
-  background: #1b5e20;
-  border-color: #1b5e20;
-  color: #fff9a6;
-}
-
-.resume-page .btn-solid:hover { background: #2e7d32; border-color: #2e7d32; }
-
 .resume-head {
-  border-bottom: 2px solid #fce300;
-  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 22px;
 }
 
-.resume-head h1 { font-size: clamp(2rem, 4.4vw, 2.9rem); color: #17250e; }
+.resume-head h1 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: clamp(2rem, 4.4vw, 2.9rem);
+  color: var(--white);
+}
 
 .resume-head .role {
   font-family: var(--font-display);
   text-transform: uppercase;
   font-size: 1.06rem;
-  color: #2e7d32;
+  color: var(--lemon);
   margin-top: 8px;
 }
 
@@ -612,23 +604,27 @@ body.resume-page {
   gap: 8px 20px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: #6b7a5c;
+  color: var(--muted);
 }
 
-.resume-head .links a { color: #2e7d32; text-decoration: none; border-bottom: 1px solid rgba(46, 125, 50, 0.4); }
+.resume-head .links a {
+  color: var(--lemon);
+  text-decoration: none;
+  border-bottom: 1px solid var(--lemon-dim);
+}
 
 .resume h2 {
   font-family: var(--font-mono);
   font-size: 0.76rem;
   letter-spacing: 0.14em;
-  color: #6b7a5c;
+  color: var(--muted);
   font-weight: 500;
   margin: 34px 0 16px;
   padding-bottom: 9px;
-  border-bottom: 1px solid rgba(23, 37, 14, 0.16);
+  border-bottom: 1px solid var(--line);
 }
 
-.resume .profile { font-size: 1.02rem; max-width: 78ch; }
+.resume .profile { font-size: 1.02rem; max-width: 78ch; color: var(--white); }
 
 .stack-table { display: grid; gap: 10px; }
 
@@ -637,6 +633,7 @@ body.resume-page {
   grid-template-columns: 150px minmax(0, 1fr);
   gap: 16px;
   font-size: 0.96rem;
+  color: var(--white);
 }
 
 .stack-table .key {
@@ -644,24 +641,24 @@ body.resume-page {
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #2e7d32;
+  color: var(--lemon);
   padding-top: 3px;
 }
 
-.job { padding: 20px 0; border-top: 1px solid rgba(23, 37, 14, 0.14); }
+.job { padding: 20px 0; border-top: 1px solid var(--line); }
 
 .job:first-of-type { border-top: 0; padding-top: 0; }
 
-.job h3 { font-size: 1.16rem; color: #17250e; }
+.job h3 { font-size: 1.16rem; color: var(--white); }
 
 .job .tech {
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: #6b7a5c;
+  color: var(--muted);
   margin-top: 7px;
 }
 
-.job .about { margin-top: 10px; font-size: 0.97rem; max-width: 80ch; }
+.job .about { margin-top: 10px; font-size: 0.97rem; max-width: 80ch; color: var(--white); }
 
 .job ul {
   margin: 12px 0 0;
@@ -669,16 +666,16 @@ body.resume-page {
   display: grid;
   gap: 6px;
   font-size: 0.95rem;
-  color: #2f3d26;
+  color: var(--muted);
 }
 
-.job li::marker { color: #2e7d32; }
+.job li::marker { color: var(--lemon); }
 
 .job .repo {
   margin-top: 12px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #2e7d32;
+  color: var(--lemon);
 }
 
 /* ---------- адаптив ---------- */
@@ -712,6 +709,21 @@ body.resume-page {
   @page { size: A4; margin: 14mm 15mm; }
 
   body, body.resume-page { background: #fff; color: #17250e; font-size: 10.5pt; line-height: 1.45; }
+
+  /* на экране страница тёмная, на бумаге — светлая и читаемая */
+  .resume-head h1, .job h3, .resume .profile, .job .about,
+  .stack-table .line { color: #17250e; }
+
+  .resume-head .role, .stack-table .key, .job .repo,
+  .resume-head .links a { color: #1b5e20; }
+
+  .resume h2, .job .tech, .job ul, .resume-head .links { color: #5b6a4d; }
+
+  .resume-head, .resume h2, .job { border-color: rgba(23, 37, 14, 0.22); }
+
+  .resume-head .links a { border-bottom-color: rgba(27, 94, 32, 0.4); }
+
+  .job li::marker { color: #1b5e20; }
 
   .no-print, .topbar, .band-dark { display: none !important; }
 
