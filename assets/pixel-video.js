@@ -30,7 +30,7 @@
     pixelSize: 6,           // размер ячейки сетки на экране, px
     lowCut: 26,             // яркость, ниже которой квадрат минимальный
     highCut: 168,           // яркость, при которой квадрат занимает всю ячейку
-    minScale: 0.4,          // минимальный размер квадрата (доля ячейки)
+    minScale: 0.55,         // минимальный размер квадрата (доля ячейки)
     gamma: 1.3,             // кривая роста: середина держит массу, тени рассыпаются
     ringMinScale: 0.78,     // контур рисуем почти в полную клетку — линия сплошная
     edgeDelta: 46,          // перепад яркости, при котором пиксель считается краем
@@ -83,9 +83,24 @@
   }
 
   function quantize(value, levels) {
-    if (!levels || levels < 2) return value | 0;
+    if (!levels || levels < 2) return Math.round(value);
     var step = 255 / (levels - 1);
-    return Math.round(Math.round(value / step) * step) | 0;
+    return Math.round(Math.round(value / step) * step);
+  }
+
+  /* Приглушённая версия цвета — подложка под квадрат клетки.
+     Без неё между квадратами проступает чёрный фон и видна сетка. */
+  function dim(color, k) {
+    if (color.charAt(0) === '#') {
+      var n = parseInt(color.slice(1), 16);
+      return 'rgb(' + Math.round(((n >> 16) & 255) * k) + ',' +
+                      Math.round(((n >> 8) & 255) * k) + ',' +
+                      Math.round((n & 255) * k) + ')';
+    }
+    var m = /rgb\((\d+),(\d+),(\d+)\)/.exec(color);
+    if (!m) return color;
+    return 'rgb(' + Math.round(+m[1] * k) + ',' + Math.round(+m[2] * k) + ',' +
+                    Math.round(+m[3] * k) + ')';
   }
 
   function PixelVideo(container, options) {
@@ -387,11 +402,12 @@
         var oy = py + Math.round((cellH - side) / 2);
 
         if (layer <= opt.rings) {
-          if (layer === 1 && hash01(x, y, 0) < opt.ringChance) {
-            push(opt.ringNavy, ox, oy, side, side);
-          } else {
-            push(opt.palette[layer - 1], ox, oy, side, side);
-          }
+          var rc = (layer === 1 && hash01(x, y, 0) < opt.ringChance)
+            ? opt.ringNavy : opt.palette[layer - 1];
+          var rbase = colors['d' + rc];
+          if (rbase === undefined) rbase = colors['d' + rc] = dim(rc, 0.72);
+          push(rbase, px, py, cellW, cellH);      // подложка во всю клетку
+          push(rc, ox, oy, side, side);           // сам квадрат
         } else {
           var qr = quantize(Math.min(255, data[idx * 4] * opt.coreBoost), opt.levels);
           var qg = quantize(Math.min(255, data[idx * 4 + 1] * opt.coreBoost), opt.levels);
@@ -399,7 +415,10 @@
           var key = (qr << 16) | (qg << 8) | qb;
           var col = colors[key];
           if (col === undefined) col = colors[key] = 'rgb(' + qr + ',' + qg + ',' + qb + ')';
-          push(col, ox, oy, side, side);
+          var base = colors['d' + key];
+          if (base === undefined) base = colors['d' + key] = dim(col, 0.72);
+          push(base, px, py, cellW, cellH);       // подложка во всю клетку
+          push(col, ox, oy, side, side);          // сам квадрат
         }
       }
     }
