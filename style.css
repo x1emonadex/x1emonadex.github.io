@@ -74,6 +74,9 @@ p { margin: 0; text-wrap: pretty; }
 
 .label-lemon { color: var(--lemon); }
 
+/* две строки над заголовком: направление и профиль */
+.hero-copy .label + .label { margin-top: 5px; }
+
 /* ---------- кнопки ---------- */
 
 .btn {
